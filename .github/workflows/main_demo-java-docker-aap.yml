@@ -21,8 +21,10 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: https://myfirstregistrydemo.azurecr.io/
-          username: ${{ secrets.AzureAppService_ContainerUsername_64351d0761874e05bf5e889f244c291a }}
-          password: ${{ secrets.AzureAppService_ContainerPassword_abbfef7527874c0189068c5d5110197b }}
+          #username: ${{ secrets.AzureAppService_ContainerUsername_64351d0761874e05bf5e889f244c291a }}
+          username: myFirstRegistrydemo
+          #password: ${{ secrets.AzureAppService_ContainerPassword_abbfef7527874c0189068c5d5110197b }}
+          password: W1Juww0q7uWplQuID/DBtyKpbGTX05XC3mXVOxsZqh+ACRDBZOlh
           ecr: auto
           logout: true
 
