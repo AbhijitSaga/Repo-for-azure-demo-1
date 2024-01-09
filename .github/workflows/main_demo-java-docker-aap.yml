@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy container app to Azure Web App - demo-java-docker-aap
 
 on:
@@ -11,31 +14,24 @@ jobs:
     runs-on: 'ubuntu-latest'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-      - name: Log in to registry
-        uses: docker/login-action@v2
-        with:
-          registry: https://myfirstregistrydemo.azurecr.io/
-          #username: ${{ secrets.AzureAppService_ContainerUsername_64351d0761874e05bf5e889f244c291a }}
-          username: myFirstRegistrydemo
-          #password: ${{ secrets.AzureAppService_ContainerPassword_abbfef7527874c0189068c5d5110197b }}
-          password: W1Juww0q7uWplQuID/DBtyKpbGTX05XC3mXVOxsZqh+ACRDBZOlh
-          ecr: auto
-          logout: true
+    - name: Log in to registry
+      uses: docker/login-action@v2
+      with:
+        registry: https://myfirstregistrydemo.azurecr.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_64351d0761874e05bf5e889f244c291a }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_abbfef7527874c0189068c5d5110197b }}
 
-
-
-      - name: Build and push container image to registry
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: myfirstregistrydemo.azurecr.io/your-image-name:${{ github.sha }}
-          file: ./Dockerfile
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: myfirstregistrydemo.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_64351d0761874e05bf5e889f244c291a }}/First-Image:${{ github.sha }}
+        file: ./Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
@@ -45,10 +41,11 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'demo-java-docker-aap'
-          slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_d098510124b14001aacbb6d05a0f07f6 }}
-          images: 'myfirstregistrydemo.azurecr.io/your-image-name:${{ github.sha }}'
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'demo-java-docker-aap'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_d098510124b14001aacbb6d05a0f07f6 }}
+        images: 'myfirstregistrydemo.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_64351d0761874e05bf5e889f244c291a }}/First-Image:${{ github.sha }}'
