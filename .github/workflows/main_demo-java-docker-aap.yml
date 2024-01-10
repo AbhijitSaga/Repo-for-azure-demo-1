@@ -57,6 +57,6 @@ jobs:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        registry: ghcr.io
+        registry: https://myfirstregistrydemo.azurecr.io/
         username: $GITHUB_USER
         password: ${{ secrets.GITHUB_TOKEN }}
