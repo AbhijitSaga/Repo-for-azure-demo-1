@@ -18,7 +18,7 @@ UserRepo userRepo;
 
 	@GetMapping("/demo")
 	public String demo(){
-		return "Hello demo world............";
+		return "Hello demo My India............";
 	}
 	@PostMapping("/user")
 	public ResponseEntity<?> userSave(@RequestBody UserModel userModel){
